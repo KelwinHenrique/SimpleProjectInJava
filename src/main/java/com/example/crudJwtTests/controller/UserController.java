@@ -35,7 +35,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> update(@RequestBody User user, @PathVariable Integer id) {
+    public ResponseEntity<?> update(@Valid @RequestBody UserDTO userDTO, @PathVariable Integer id) {
+        User user = userService.fromDTO(userDTO);
         user.setId(id);
         user = userService.update(user);
         return ResponseEntity.noContent().build();

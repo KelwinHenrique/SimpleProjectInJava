@@ -3,6 +3,7 @@ package com.example.crudJwtTests.services;
 import com.example.crudJwtTests.domain.User;
 import com.example.crudJwtTests.dto.UserDTO;
 import com.example.crudJwtTests.repositories.UserRepository;
+import com.example.crudJwtTests.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +21,8 @@ public class UserService {
 
     public User findById(Integer id) {
         Optional<User> user = userRepository.findById(id);
-        return user.orElse(null);
+        return user.orElseThrow(() -> new ObjectNotFoundException(
+                "User not found! Id: " + id + ", Type: " + User.class.getName()));
     }
 
     public User create(User user) {
