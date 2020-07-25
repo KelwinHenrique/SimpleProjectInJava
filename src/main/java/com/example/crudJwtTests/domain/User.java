@@ -1,5 +1,7 @@
 package com.example.crudJwtTests.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,13 +16,16 @@ public class User implements Serializable {
     private String name;
     private String email;
 
+    @JsonIgnore
+    private String password;
+
     public User() {
     }
 
-    public User(String name, String email) {
-        this.id = id;
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
+        this.password = password;
     }
 
     public String getEmail() {
@@ -46,6 +51,14 @@ public class User implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setName(String name) {

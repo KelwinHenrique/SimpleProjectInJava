@@ -2,12 +2,14 @@ package com.example.crudJwtTests.services;
 
 import com.example.crudJwtTests.domain.User;
 import com.example.crudJwtTests.dto.UserDTO;
+import com.example.crudJwtTests.dto.UserNewDTO;
 import com.example.crudJwtTests.repositories.UserRepository;
 import com.example.crudJwtTests.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +17,9 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -49,6 +54,10 @@ public class UserService {
     }
 
     public User fromDTO(UserDTO userDTO) {
-        return new User(userDTO.getName(), userDTO.getEmail());
+        return new User(userDTO.getName(), userDTO.getEmail(), null);
+    }
+
+    public User fromNewDTO(UserNewDTO userNewDTO) {
+        return new User(userNewDTO.getName(), userNewDTO.getEmail(), passwordEncoder.encode(userNewDTO.getPassword()));
     }
 }

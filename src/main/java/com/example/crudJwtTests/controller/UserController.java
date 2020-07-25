@@ -2,6 +2,7 @@ package com.example.crudJwtTests.controller;
 
 import com.example.crudJwtTests.domain.User;
 import com.example.crudJwtTests.dto.UserDTO;
+import com.example.crudJwtTests.dto.UserNewDTO;
 import com.example.crudJwtTests.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,8 +28,8 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> create(@Valid @RequestBody UserDTO userDTO) {
-        User user = userService.fromDTO(userDTO);
+    public ResponseEntity<Void> create(@Valid @RequestBody UserNewDTO userNewDTO) {
+        User user = userService.fromNewDTO(userNewDTO);
         user = userService.create(user);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
         return ResponseEntity.created(uri).build();
