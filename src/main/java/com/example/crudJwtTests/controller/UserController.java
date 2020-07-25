@@ -4,6 +4,7 @@ import com.example.crudJwtTests.domain.User;
 import com.example.crudJwtTests.dto.UserDTO;
 import com.example.crudJwtTests.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -47,9 +48,12 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<UserDTO>> findAll() {
-        List<User> users = userService.findAll();
-        List<UserDTO> usersDTO = users.stream().map(user -> new UserDTO(user)).collect(Collectors.toList());
+    public ResponseEntity<Page<UserDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                  @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+                                                  @RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
+                                                  @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+        Page<User> users = userService.findPage(page, linesPerPage, orderBy, direction);
+        Page<UserDTO> usersDTO = users.map(user -> new UserDTO(user));
         return ResponseEntity.ok().body(usersDTO);
     }
 }
