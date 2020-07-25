@@ -1,6 +1,7 @@
 package com.example.crudJwtTests.services;
 
 import com.example.crudJwtTests.domain.User;
+import com.example.crudJwtTests.dto.UserDTO;
 import com.example.crudJwtTests.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,5 +44,9 @@ public class UserService {
     public Page<User> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return userRepository.findAll(pageRequest);
+    }
+
+    public User fromDTO(UserDTO userDTO) {
+        return new User(userDTO.getName(), userDTO.getEmail());
     }
 }
