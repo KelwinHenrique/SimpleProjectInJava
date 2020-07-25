@@ -23,11 +23,11 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<StandardError> validation(MethodArgumentNotValidException error,
                                                         HttpServletRequest request) {
-        ValidationError standardError = new ValidationError(HttpStatus.NOT_FOUND.value(), "Validation Error", System.currentTimeMillis());
+        ValidationError standardError = new ValidationError(HttpStatus.BAD_REQUEST.value(), "Validation Error", System.currentTimeMillis());
         for (FieldError e : error.getBindingResult().getFieldErrors()) {
             standardError.addError(e.getField(), e.getDefaultMessage());
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(standardError);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
     }
 
 }

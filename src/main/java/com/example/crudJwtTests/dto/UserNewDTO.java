@@ -29,6 +29,7 @@ public class UserNewDTO implements Serializable {
         id = user.getId();
         name = user.getName();
         email = user.getEmail();
+        password = user.getPassword();
     }
 
     public Integer getId() {
