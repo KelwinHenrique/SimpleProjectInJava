@@ -24,7 +24,8 @@ public class UserController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> findUserById(@PathVariable Integer id) {
         User user = userService.findById(id);
-        return ResponseEntity.ok().body(user);
+        UserDTO userDTO = new UserDTO(user);
+        return ResponseEntity.ok().body(userDTO);
     }
 
     @RequestMapping(method = RequestMethod.POST)
