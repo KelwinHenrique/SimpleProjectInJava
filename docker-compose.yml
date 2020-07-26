@@ -1,21 +1,20 @@
-version: '3'
-
+version: "3"
 services:
-
-  myapp-mysql:
-    image: mysql:8.0
+  mysql-my-app:
+    image: mysql:8
+    networks:
+      - network-my-app
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=simple_project_java
-      - MYSQL_USER=myapp-user
-      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=project
+  myapp:
+    image: my-app-image
     ports:
-      - 3306:3306
-
-  myapp-main:
-    image: image8
-    restart: on-failure
+      - "4040:8080"
+    networks:
+      - network-my-app
     depends_on:
-      - myapp-mysql
-    ports:
-      - 8090:8080
+      - mysql-my-app
+
+networks:
+  network-my-app:
